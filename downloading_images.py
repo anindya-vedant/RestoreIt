@@ -11,6 +11,7 @@ import argparse
 import requests
 import cv2
 import os
+import urllib
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -25,18 +26,18 @@ args = vars(ap.parse_args())
 rows = open(args["urls"]).read().strip().split("\n")
 total = 0
 
+def downloader(image_url,full_file_name):
+    urllib.request.urlretrieve(image_url,full_file_name)
+
 # loop the URLs
 for url in rows:
 	try:
-		# try to download the image
-		r = requests.get(url, timeout=60)
+		# try to download the image using the downloader function
 
 		# save the image to disk
 		p = os.path.sep.join([args["output"], "{}.jpg".format(
 			str(total).zfill(8))])
-		f = open(p, "wb")
-		f.write(r.content)
-		f.close()
+		downloader(url,p)
 
 		# update the counter
 		print("[INFO] downloaded: {}".format(p))
@@ -73,4 +74,4 @@ for imagePath in paths.list_images(args["output"]):
 
 #code to exceute this script
 
-#$ python downloading_images.py --urls urls.txt --output images/santa
+#$ python downloading_images.py --urls urls.txt --output images\damaged
