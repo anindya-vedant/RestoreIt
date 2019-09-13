@@ -1,11 +1,18 @@
-import urllib.request
-import random
+from imutils import paths
+import argparse
+import requests
+import cv2
+import os
+import urllib
 
-
-def downloader(image_url):
-    file_name = random.randrange(1,10000)
-    full_file_name = str(file_name) + '.jpg'
-    urllib.request.urlretrieve(image_url,full_file_name)
-
-
-downloader('https://www.image-restore.co.uk/new/wp-content/uploads/water_damage_restored_blog.jpg')
+# construct the argument parse and parse the arguments
+ap = argparse.ArgumentParser()
+ap.add_argument("-u", "--urls", required=True,
+	help="path to file containing image URLs")
+ap.add_argument("-o", "--output", required=True,
+	help="path to output directory of images")
+args = vars(ap.parse_args())
+total = 0
+if len(os.listdir(args["output"]))!=0:
+        total=len(os.listdir(args["output"]))+1
+print(total)

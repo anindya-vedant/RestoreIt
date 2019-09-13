@@ -26,6 +26,13 @@ args = vars(ap.parse_args())
 rows = open(args["urls"]).read().strip().split("\n")
 total = 0
 
+''' Check whether the output folder is empty or not
+If it is not empty then count the number of files and then
+start the counter from there '''
+
+if len(os.listdir(args["output"]))!=0:
+        total=len(os.listdir(args["output"]))+1
+
 def downloader(image_url,full_file_name):
     urllib.request.urlretrieve(image_url,full_file_name)
 
